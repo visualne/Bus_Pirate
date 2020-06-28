@@ -39,7 +39,7 @@ if __name__ == '__main__':
                         type=argparse.FileType('wb'),
                         required=True)
     parser.add_argument("-p", "--serial-port", dest="bp",
-                        default="/dev/ttyUSB0")
+                        default="/dev/tty.usbserial-AB0JPWD2")
     parser.add_argument("-s", "--size", dest="size", type=int, required=True)
     parser.add_argument("-S", "--serial-speed", dest="speed", default=115200,
                         type=int)
@@ -49,40 +49,30 @@ if __name__ == '__main__':
     args = parser.parse_args(sys.argv[1:])
 
     i2c = I2C(args.bp, args.speed)
-    print
-    "Entering binmode: ",
+    print "Entering binmode: ",
     if i2c.BBmode():
-        print
-        "OK."
+        print "OK."
     else:
-        print
-        "failed."
+        print "failed."
         sys.exit()
 
-    print
-    "Entering raw I2C mode: ",
+    print "Entering raw I2C mode: ",
     if i2c.enter_I2C():
-        print
-        "OK."
+        print "OK."
     else:
-        print
-        "failed."
+        print "failed."
         sys.exit()
 
-    print
-    "Configuring I2C."
+    print "Configuring I2C."
     if not i2c.cfg_pins(I2CPins.POWER | I2CPins.PULLUPS):
-        print
-        "Failed to set I2C peripherals."
+        print "Failed to set I2C peripherals."
         sys.exit()
     if not i2c.set_speed(I2CSpeed._400KHZ):
-        print
-        "Failed to set I2C Speed."
+        print "Failed to set I2C Speed."
         sys.exit()
     i2c.timeout(0.2)
 
-    print
-    "Dumping %d bytes out of the EEPROM." % args.size
+    print "Dumping %d bytes out of the EEPROM." % args.size
 
     # Start dumping
     for block in range(0, args.size, args.bsize):
@@ -97,12 +87,9 @@ if __name__ == '__main__':
             True)]))
     args.outfile.close()
 
-    print
-    "Reset Bus Pirate to user terminal: "
+    print "Reset Bus Pirate to user terminal: "
     if i2c.resetBP():
-        print
-        "OK."
+        print "OK."
     else:
-        print
-        "failed."
+        print "failed."
         sys.exit()

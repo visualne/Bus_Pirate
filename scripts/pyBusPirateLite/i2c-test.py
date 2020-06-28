@@ -49,7 +49,7 @@ def i2c_read_bytes(address, numbytes, ret=False):
 		return data_out
 
 if __name__ == '__main__':
-	i2c = I2C("/dev/ttyUSB0", 115200)
+	i2c = I2C("/dev/tty.usbserial-AB0JPWD2", 115200)
 	print("Entering binmode: ")
 	if i2c.BBmode():
 		print("OK.")

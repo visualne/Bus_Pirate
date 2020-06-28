@@ -164,7 +164,11 @@ class BBIO:
 		self.port.write(chr(0x10 | (byte_count-1)))
 		#self.timeout(0.1)
 		for i in range(byte_count):
-			self.port.write(chr(byte_string[i]))
+			#  Had to add the encoding below in order for things
+			#  to work correctly.
+			self.port.write(unichr(byte_string[i]).encode('utf-8'))
+
+			# self.port.write(chr(byte_string[i]))
 			#self.timeout(0.1)
 		data = self.response(byte_count+1, True)
 		return data[1:]
